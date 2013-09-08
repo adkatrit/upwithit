@@ -9,3 +9,5 @@ export GOPATH=`pwd`
 go run search.go
 ```
 ![preview](http://i.imgur.com/YwDv5gG.png)
+TODO: add login to for making custom list of domains
+
