@@ -1,0 +1,25 @@
+* {
+  font: 13px verdana,sans-serif;
+  
+}
+input{
+  border:1px solid #ccc;
+  
+  width:300px;
+  padding:10px;
+}
+
+input:focus{   
+  outline: none;
+  border-color: #ccc;
+  box-shadow: 0 0 10px #ccc;
+}
+div{
+  width:300px;
+  height:30px;
+  margin:auto auto;
+}
+footer {
+	position:absolute;
+	bottom:0px;
+}

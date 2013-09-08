@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>{{ template "title" . }}</title>
+        <style>
+            * {
+              font: 13px verdana,sans-serif;
+              
+            }
+
+            input {
+              border:1px solid #ccc;
+              
+              
+              padding:10px;
+            }
+            h1{
+              font-size: 70px;
+            }
+            p{
+              color: #777;
+            }
+            #search {
+              width:300px;
+            }
+
+            input:focus {   
+              outline: none;
+              border-color: #ccc;
+              box-shadow: 0 0 10px #ccc;
+            }
+            div {
+              width:675px;
+              height:30px;
+              margin:auto auto;
+            }
+            ul {
+              list-style: none;
+              padding-left: 10px; 
+              margin: 0;}
+            li{
+              list-style: none;
+              padding-bottom: 10px;
+              padding-top: 10px;
+              color: #777;
+            }
+            footer {
+              position:absolute;
+              bottom:0px;
+            }
+    </style>
+    </head>
+    <body>
+        <div id="contents">
+            <section id="contents">
+                {{ template "content" . }}
+            </section>
+        </div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.2.2/d3.v3.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.1/underscore-min.js"></script>
+    <script type="text/template" id="searchResults">
+      <li><%= result %> via <a href="<%= url %>"><%= url %></a></li>
+    </script>
+    <script type="text/javascript">
+     var template = _.template($("#searchResults").html());
+      $('document').ready(function(){
+        $('input').keypress(function (e) {
+          
+          if (e.which == 13) {
+            e.preventDefault()
+            var query = $("#search").val().trim()
+            var lwindow = $("#lwindow").val()
+            var rwindow = $("#rwindow").val().trim()
+            $('.results').html('...');
+            $.get("http://localhost:8333/search/"+query+"/"+lwindow+"/"+rwindow,function(response){
+              var sites = ["https://news.ycombinator.com", "https://google.com/news", "http://reddit.com"]
+             $('.results').html(sites.join(' '));
+              for(var r in response){
+                if(response[r].Message){
+                  response[r].Message.forEach(function(m){
+                    $('.results').append(
+                      template(
+                        {
+                         url: response[r].Url,
+                         result: m.replace(query,"<b style='font-size:19px;'>"+query+"</b>")
+                        }
+                      )
+                    )
+                  });
+                }
+              }
+              if($('.results').html().length ==0){
+                $('.results').append('no results');
+              }
+            });
+          }
+        });
+      });
+    </script>
+    </body>
+</html>

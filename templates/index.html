@@ -1,0 +1,16 @@
+{{ define "title" }}Up With It | Realtime Alerting and Custom Search{{ end }}
+
+{{ define "content" }}
+    <h1>Up.With.It</h1>
+    <p> search with a regex without the surrounding "/". </p>
+    <p>left and right window control how much context is returned before and after the match </p>
+    <p>try:  0 (acci|presi)(dent) 20</p>
+    <span>
+    	<input id="lwindow" placeholder="left window"/>
+    	<input id="search" placeholder="search(regex works)"/>
+		<input id="rwindow" placeholder="right window" />
+	</span>
+    <ul class="results">
+        
+    </ul>
+{{ end }}
