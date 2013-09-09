@@ -42,33 +42,33 @@ func e(e error) {
  
 }
 func stripTags(s string) string {
-	plaintext := ""
-	// TODO; use a reflect swtich to handle arg types (string,)
-	z := html.NewTokenizer(strings.NewReader(s))
-	depth := 0
-	Loop:
-		for {
-			tt:=z.Next()
-			switch tt {
-			case html.ErrorToken:
-				break Loop
-			case html.TextToken:
-				if depth > 0 {
-					plaintext = plaintext+" "+string(z.Text())+" "
-				}
-			case html.StartTagToken, html.EndTagToken:
-				tn, _ := z.TagName()
-				if len(tn) == 1 && tn[0] == 'a' {
-					if tt == html.StartTagToken {
-						depth++
-					} else {
-						depth--
-					}
-				}
-			}
+  plaintext := ""
+  // TODO; use a reflect swtich to handle arg types (string,)
+  z := html.NewTokenizer(strings.NewReader(s))
+  depth := 0
+  Loop:
+    for {
+      tt:=z.Next()
+      switch tt {
+      case html.ErrorToken:
+        break Loop
+      case html.TextToken:
+        if depth > 0 {
+          plaintext = plaintext+" "+string(z.Text())+" "
+        }
+      case html.StartTagToken, html.EndTagToken:
+        tn, _ := z.TagName()
+        if len(tn) == 1 && tn[0] == 'a' {
+          if tt == html.StartTagToken {
+            depth++
+          } else {
+            depth--
+          }
+        }
+      }
 
-		}
-	return plaintext
+    }
+  return plaintext
 }
 func getPageChunk(q, url, lwindow, rwindow string) []string{
 	res, err := http.Get(url)
